@@ -1,7 +1,6 @@
-console.log("Welcome to Hell");
 const contacts = require("./contacts");
-const { Command } = require("commander");
-const program = new Command();
+const { program } = require("commander");
+
 program
     .option("-a, --action <type>", "choose action")
     .option("-i, --id <type>", "user id")
@@ -11,24 +10,29 @@ program
 
 program.parse(process.argv);
 
+
 const argv = program.opts();
 
-function invokeAction({ action, id, name, email, phone }) {
+async function invokeAction({ action, id, name, email, phone }) {
     switch (action) {
         case "list":
-            contacts.listContacts();
+            const data = await contacts.listContacts();
+            console.table(data);
             break;
 
         case "get":
-            contacts.getContactById(id);
+            const contact = await contacts.getContactById(id);
+            console.log(contact);
             break;
 
         case "add":
-            contacts.addContact(name, email, phone);
+            const addContact = await contacts.addContact({ name, email, phone });
+            console.log(addContact);
             break;
 
         case "remove":
-            contacts.removeContact(id)
+            const removeContact = await contacts.removeContact(id);
+            console.log(removeContact);
             break;
 
         default:
@@ -36,9 +40,7 @@ function invokeAction({ action, id, name, email, phone }) {
     }
 }
 
-// invokeAction(argv); 
+invokeAction(argv);
 
-// contacts.listContacts();
-// contacts.getContactById(1);
-// // contacts.addContact('Артём', 'natalia.mail@meta.ua', '099-244-23-97');
-// contacts.removeContact("729a24f10a4")
+
+
