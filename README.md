@@ -4,7 +4,7 @@
 
 node index.js --action list
 
-file:///D:/contacts%20CLI/action%20list.png
+file:///D:/contacts%20CLI/action%20list.png/
 
 # Получаем контакт по id
 
